@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ALKA A S — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+  /* =============================================
+     1. CSS CUSTOM PROPERTIES — THEME SYSTEM
+  ============================================= */
+
+  /* LIGHT THEME */
+  :root {
+    --bg:              #f7f4f0;
+    --bg-alt:          #eeeae4;
+    --surface:         #ffffff;
+    --surface-2:       #f0ece6;
+    --ink:             #18120e;
+    --ink-muted:       #6b5f56;
+    --accent:          rgb(35, 118, 243);
+    --accent-soft:     rgba(212, 67, 15, 0.12);
+    --accent-glow:     rgba(212, 67, 15, 0.28);
+    --border:          rgba(0,0,0,0.09);
+    --shadow-sm:       0 2px 12px rgba(0,0,0,0.07);
+    --shadow-md:       0 8px 32px rgba(0,0,0,0.1);
+    --shadow-lg:       0 20px 60px rgba(0,0,0,0.13);
+    --photo-opacity:   0.10;
+    --nav-bg:          rgba(247,244,240,0.90);
+    --cursor-color:    rgb(35, 118, 243);
+  }
+
+  /* DARK THEME */
+  [data-theme="dark"] {
+    --bg:              #0f0d0b;
+    --bg-alt:          #161310;
+    --surface:         #1e1a16;
+    --surface-2:       #252119;
+    --ink:             #f0ece6;
+    --ink-muted:       #9a8f85;
+    --accent:          rgb(35, 118, 243);
+    --accent-soft:     rgba(52, 4, 116, 0.15);
+    --accent-glow:     rgba(16, 48, 230, 0.597);
+    --border:          rgba(255,255,255,0.08);
+    --shadow-sm:       0 2px 12px rgba(0,0,0,0.45);
+    --shadow-md:       0 8px 32px rgba(0,0,0,0.55);
+    --shadow-lg:       0 20px 60px rgba(0,0,0,0.65);
+    --photo-opacity:   0.14;
+    --nav-bg:          rgba(15,13,11,0.90);
+    --cursor-color:    rgb(35, 118, 243);
+  }
+
+  /* =============================================
+     2. RESET & BASE
+  ============================================= */
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0; padding: 0;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Sora', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.7;
+    overflow-x: hidden;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+
+  /* Theme-aware transitions */
+  nav, .nav-logo, .highlight-card, .skill-item, .project-card,
+  .exp-content, .contact-item, .social-btn, .stat-pill,
+  footer, section, .section-title, .section-label, p {
+    transition:
+      background-color 0.4s ease,
+      border-color 0.4s ease,
+      color 0.4s ease,
+      box-shadow 0.4s ease;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* =============================================
+     3. NAVIGATION BAR
+  ============================================= */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    height: 64px;
+    background: var(--nav-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 clamp(1.25rem, 5vw, 3rem);
+  }
+
+  .nav-logo {
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .nav-logo .dot { color: var(--accent); }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.75rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.76rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    position: relative;
+    padding-bottom: 2px;
+    transition: color 0.2s ease;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px; left: 0;
+    width: 0; height: 1.5px;
+    background: var(--accent);
+    transition: width 0.25s ease;
+  }
+
+  .nav-links a:hover        { color: var(--ink); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-links a.active       { color: var(--ink); }
+  .nav-links a.active::after{ width: 100%; }
+
+  /* ── Theme Toggle Button ── */
+  .theme-toggle {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    color: var(--ink);
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.25s ease, box-shadow 0.25s ease,
+                background-color 0.4s ease, border-color 0.4s ease !important;
+  }
+
+  .theme-toggle:hover {
+    transform: rotate(22deg) scale(1.1);
+    box-shadow: 0 4px 18px var(--accent-glow);
+    border-color: var(--accent);
+  }
+
+  /* Mobile hamburger */
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .nav-toggle span {
+    display: block;
+    width: 22px; height: 2px;
+    background: var(--ink);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  /* =============================================
+     4. LAYOUT UTILITIES
+  ============================================= */
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 5vw, 3rem);
+  }
+
+  section { padding: clamp(5rem, 11vw, 8rem) 0; }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+    display: block;
+  }
+
+  .section-title {
+    font-size: clamp(1.9rem, 4.5vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
+  }
+
+  .section-divider {
+    width: 44px; height: 3px;
+    background: var(--accent);
+    border-radius: 2px;
+    margin-bottom: 3.5rem;
+  }
+
+  /* =============================================
+     5. HERO SECTION
+  ============================================= */
+  #home {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding-top: 64px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── Photo background ── */
+  .hero-photo-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  /*
+    YOUR PHOTO:
+    Replace .photo-silhouette below with:
+    <img src="your-photo.jpg" alt="Alka A S" class="hero-photo-img">
+    The CSS below handles the transparency automatically.
+  */
+.hero-photo-img {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 95%;
+  width: auto;
+  max-width: 52%;
+  object-fit: contain;
+  object-position: bottom right;
+
+  /* Increase visibility */
+  opacity: calc(var(--photo-opacity) + 0.15);
+  filter: grayscale(20%);
+
+  /* Softer, less aggressive fade */
+  mask-image: linear-gradient(to left, rgba(0,0,0,1) 60%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 60%, transparent 100%);
+
+  transition: opacity 0.4s ease;
+}
+
+/* Placeholder shape shown before photo is added */
+.photo-silhouette {
+  position: absolute;
+  right: 6%;
+  bottom: 0;
+  width: 34%;
+  max-width: 400px;
+  aspect-ratio: 2/3;
+  border-radius: 55% 55% 0 0;
+  background: var(--ink);
+  opacity: var(--photo-opacity);
+
+  mask-image: linear-gradient(to top, rgba(0,0,0,1) 70%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 70%, transparent 100%);
+
+  transition: opacity 0.4s ease, background-color 0.4s ease;
+}
+
+/* Ambient gradients behind content */
+#home::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 55% 65% at 18% 62%, var(--accent-soft) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 45% at 88% 18%, var(--accent-soft) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 1;
+}
+  
+
+  .hero-content { position: relative; z-index: 2; }
+
+  /* ── Load animations ── */
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.1s forwards;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: block;
+    width: 30px; height: 1px;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* NAME — single line, bold, very large */
+  .hero-name {
+    font-size: clamp(3rem, 9vw, 7.5rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.25s forwards;
+  }
+
+  .hero-name .accent { color: var(--accent); }
+
+  /* ── Typing animation ── */
+  .hero-typing-wrap {
+    font-size: clamp(0.95rem, 2vw, 1.15rem);
+    color: var(--ink-muted);
+    min-height: 2.2em;
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.45s forwards;
+  }
+
+  .typing-prefix {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85em;
+    color: var(--accent);
+    font-weight: 600;
+    margin-right: 0.45em;
+  }
+
+  #typing-text { font-weight: 400; }
+
+  .typing-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.05em;
+    background: var(--cursor-color);
+    margin-left: 3px;
+    vertical-align: middle;
+    animation: blink 0.85s step-end infinite;
+    transition: background-color 0.4s ease;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* CTA row */
+  .hero-cta-row {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.65s forwards;
+  }
+
+  /* Stat pills */
+  .hero-stats {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.85s forwards;
+  }
+
+  .stat-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 40px;
+    padding: 0.42rem 1rem 0.42rem 0.65rem;
+    font-size: 0.79rem;
+    font-weight: 500;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .stat-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+
+  /* ── Buttons ── */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: var(--accent);
+    color: #fff;
+    padding: 0.88rem 1.9rem;
+    border-radius: 8px;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.84rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 4px 24px var(--accent-glow);
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease !important;
+  }
+
+  .btn-primary:hover {
+    background: color-mix(in srgb, var(--accent) 80%, #000 20%);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 36px var(--accent-glow);
+  }
+
+  .btn-primary svg { transition: transform 0.2s ease !important; }
+  .btn-primary:hover svg { transform: translateY(4px); }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--ink);
+    padding: 0.88rem 1.7rem;
+    border-radius: 8px;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.84rem;
+    font-weight: 500;
+    border: 1.5px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease,
+                background 0.2s ease, transform 0.2s ease !important;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  /* =============================================
+     6. ABOUT SECTION
+  ============================================= */
+  #about { background: var(--bg-alt); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .about-text p {
+    color: var(--ink-muted);
+    margin-bottom: 1.2rem;
+    font-size: 0.99rem;
+  }
+
+  .about-highlights {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .highlight-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.4rem;
+    cursor: default;
+    transition: transform 0.22s ease, box-shadow 0.22s ease,
+                border-color 0.22s ease, background-color 0.4s ease !important;
+  }
+
+  .highlight-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent);
+  }
+
+  .highlight-icon  { font-size: 1.55rem; margin-bottom: 0.65rem; }
+  .highlight-title { font-weight: 600; font-size: 0.86rem; margin-bottom: 0.3rem; }
+  .highlight-desc  { font-size: 0.77rem; color: var(--ink-muted); line-height: 1.5; }
+
+  /* =============================================
+     7. SKILLS SECTION
+  ============================================= */
+  .skills-category { margin-bottom: 2.5rem; }
+
+  .skills-cat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.67rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 0.85rem;
+    display: block;
+  }
+
+  .skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+  }
+
+  .skill-item {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.6rem 1.05rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    box-shadow: var(--shadow-sm);
+    cursor: default;
+    transition: transform 0.2s ease, border-color 0.2s ease,
+                color 0.2s ease, box-shadow 0.2s ease,
+                background-color 0.4s ease !important;
+  }
+
+  .skill-item:hover {
+    transform: translateY(-3px) scale(1.04);
+    border-color: var(--accent);
+    box-shadow: 0 6px 22px var(--accent-glow);
+    color: var(--accent);
+  }
+
+  .skill-icon { font-size: 1.05rem; }
+
+  /* =============================================
+     8. PROJECTS SECTION
+     To add a project: copy one .project-card block.
+  ============================================= */
+  #projects { background: var(--bg-alt); }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    cursor: default;
+    transition: transform 0.25s ease, box-shadow 0.25s ease,
+                border-color 0.25s ease, background-color 0.4s ease !important;
+  }
+
+  /* Accent bar slides in on hover */
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease !important;
+  }
+
+  .project-card:hover {
+    transform: translateY(-7px);
+    box-shadow: var(--shadow-lg), 0 0 44px var(--accent-glow);
+    border-color: var(--accent);
+  }
+
+  .project-card:hover::before { transform: scaleX(1); }
+
+  .project-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.64rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 0.22rem 0.65rem;
+    border-radius: 20px;
+    align-self: flex-start;
+    transition: background-color 0.4s ease;
+  }
+
+  .project-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .project-desc {
+    font-size: 0.87rem;
+    color: var(--ink-muted);
+    line-height: 1.65;
+    flex: 1;
+  }
+
+  .btn-demo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: transparent;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+    padding: 0.55rem 1.1rem;
+    border-radius: 7px;
+    font-family: 'Sora', sans-serif;
+    font-size: 0.79rem;
+    font-weight: 600;
+    cursor: pointer;
+    align-self: flex-start;
+    margin-top: 0.4rem;
+    transition: background 0.2s ease, color 0.2s ease,
+                transform 0.2s ease, box-shadow 0.2s ease !important;
+  }
+
+  .btn-demo:hover {
+    background: var(--accent);
+    color: #fff;
+    transform: translateX(3px);
+    box-shadow: 0 4px 18px var(--accent-glow);
+  }
+
+  /* =============================================
+     9. EXPERIENCE SECTION
+  ============================================= */
+  .experience-list {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Timeline vertical line */
+  .experience-list::before {
+    content: '';
+    position: absolute;
+    left: 6px; top: 14px; bottom: 14px;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .exp-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .exp-item:last-child { padding-bottom: 0; }
+
+  .exp-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2.5px solid var(--accent);
+    margin-top: 5px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    transition: background 0.25s ease, box-shadow 0.25s ease,
+                border-color 0.4s ease !important;
+  }
+
+  .exp-item:hover .exp-dot {
+    background: var(--accent);
+    box-shadow: 0 0 0 6px var(--accent-soft);
+  }
+
+  .exp-content {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem 1.75rem;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.22s ease, box-shadow 0.22s ease,
+                border-color 0.22s ease, background-color 0.4s ease !important;
+  }
+
+  .exp-content:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent);
+  }
+
+  .exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .exp-org  { font-size: 1.08rem; font-weight: 700; }
+
+  .exp-type {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.64rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    white-space: nowrap;
+    transition: background-color 0.4s ease;
+  }
+
+  .exp-role { font-size: 0.83rem; color: var(--ink-muted); font-weight: 500; margin-bottom: 0.5rem; }
+  .exp-desc { font-size: 0.83rem; color: var(--ink-muted); line-height: 1.65; }
+
+  /* =============================================
+     10. CONTACT SECTION
+  ============================================= */
+  #contact { background: var(--bg-alt); }
+
+  .contact-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .contact-intro {
+    font-size: 0.98rem;
+    color: var(--ink-muted);
+    margin-bottom: 1.75rem;
+    line-height: 1.75;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.05rem 1.4rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 0.7rem;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, border-color 0.2s ease,
+                box-shadow 0.2s ease, background-color 0.4s ease !important;
+  }
+
+  .contact-item:hover {
+    border-color: var(--accent);
+    box-shadow: 0 4px 20px var(--accent-glow);
+    transform: translateX(4px);
+  }
+
+  .contact-item-icon   { font-size: 1.25rem; }
+  .contact-item-label  {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.64rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+  .contact-item-val    { font-size: 0.9rem; font-weight: 500; }
+
+  .social-heading { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.2rem; }
+
+  .social-links { display: flex; flex-direction: column; gap: 0.7rem; }
+
+  .social-btn {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.4rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--ink);
+    box-shadow: var(--shadow-sm);
+    transition: background 0.22s ease, color 0.22s ease,
+                border-color 0.22s ease, transform 0.22s ease,
+                box-shadow 0.22s ease !important;
+  }
+
+  .social-btn:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+    transform: translateX(7px);
+    box-shadow: 0 6px 24px var(--accent-glow);
+  }
+
+  .social-btn svg { flex-shrink: 0; }
+
+  /* =============================================
+     11. FOOTER
+  ============================================= */
+  footer {
+    padding: 2rem clamp(1.25rem, 5vw, 3rem);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  footer code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+  }
+
+  /* =============================================
+     12. SCROLL FADE-UP ANIMATION
+  ============================================= */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity 0.65s ease, transform 0.65s ease !important;
+  }
+
+  .fade-up.visible { opacity: 1; transform: none; }
+
+  /* Stagger siblings */
+  .projects-grid .fade-up:nth-child(2) { transition-delay: 0.08s !important; }
+  .projects-grid .fade-up:nth-child(3) { transition-delay: 0.16s !important; }
+  .projects-grid .fade-up:nth-child(4) { transition-delay: 0.24s !important; }
+  .projects-grid .fade-up:nth-child(5) { transition-delay: 0.32s !important; }
+  .projects-grid .fade-up:nth-child(6) { transition-delay: 0.40s !important; }
+
+  /* =============================================
+     13. RESPONSIVE
+  ============================================= */
+  @media (max-width: 900px) {
+    .about-grid      { grid-template-columns: 1fr; gap: 2.5rem; }
+    .contact-wrapper { grid-template-columns: 1fr; gap: 2.5rem; }
+  }
+
+  @media (max-width: 700px) {
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      position: fixed;
+      top: 64px; left: 0; right: 0;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      gap: 1.25rem;
+      z-index: 190;
+    }
+    .nav-links.open   { display: flex; }
+    .nav-toggle       { display: flex; }
+    .about-highlights { grid-template-columns: 1fr; }
+    .hero-name        { font-size: clamp(2.4rem, 12vw, 3.5rem); }
+    .photo-silhouette { width: 50%; }
+  }
+
+  @media (max-width: 480px) {
+    .projects-grid { grid-template-columns: 1fr; }
+    .hero-stats    { flex-direction: column; gap: 0.6rem; }
+  }
+  </style>
+</head>
+<body>
+
+<!-- =============================================
+     NAVIGATION
+============================================= -->
+<nav>
+  <div class="nav-logo">ALKA A S<span class="dot">.</span></div>
+
+  <div class="nav-right">
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home"       onclick="closeNav()">Home</a></li>
+      <li><a href="#about"      onclick="closeNav()">About</a></li>
+      <li><a href="#skills"     onclick="closeNav()">Skills</a></li>
+      <li><a href="#projects"   onclick="closeNav()">Projects</a></li>
+      <li><a href="#experience" onclick="closeNav()">Experience</a></li>
+      <li><a href="#contact"    onclick="closeNav()">Contact</a></li>
+    </ul>
+
+    <!-- Dark / Light mode toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle dark/light mode">
+      <span id="themeIcon">🌙</span>
+    </button>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- =============================================
+     HERO SECTION
+============================================= -->
+<section id="home">
+
+  <!-- ── Semi-transparent background photo ── -->
+  <div class="hero-photo-bg">
+    <!--
+      HOW TO USE YOUR PHOTO:
+      1. Save your photo (e.g. "alka.jpg") in the same folder as this file.
+      2. Replace the <div class="photo-silhouette"> below with:
+         <img src="alka.jpg" alt="Alka A S" class="hero-photo-img">
+      The image will appear faded behind the text automatically.
+      Best results: portrait photo, plain/light background.
+    -->
+    <img src="alka.jpg" alt="ALKA A S" class="hero-photo-img">
+  </div>
+
+  <div class="container hero-content">
+
+    <p class="hero-eyebrow">Computer Science Student · India</p>
+
+    <!-- NAME — single line -->
+    <h1 class="hero-name">ALKA <span class="accent">A S</span></h1>
+
+    <!-- Typing animation -->
+    <div class="hero-typing-wrap">
+      <span class="typing-prefix">~/</span>
+      <span id="typing-text"></span>
+      <span class="typing-cursor"></span>
+    </div>
+
+    <div class="hero-cta-row">
+      <button class="btn-primary" onclick="scrollToSection('#projects')">
+        View Projects
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M7 1.5v11M1.5 7l5.5 5.5L12.5 7" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <a href="#contact" class="btn-outline" onclick="scrollToSection('#contact'); return false;">
+        Get in Touch ↗
+      </a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-pill"><span class="stat-dot"></span> 6+ Projects Built</div>
+      <div class="stat-pill"><span class="stat-dot"></span> 3 Internships</div>
+      <div class="stat-pill"><span class="stat-dot"></span> 3rd Year CS</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- =============================================
+     ABOUT SECTION
+============================================= -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+
+      <div class="about-text fade-up">
+        <span class="section-label">About Me</span>
+        <h2 class="section-title">Turning ideas into<br>real software</h2>
+        <div class="section-divider"></div>
+        <p>
+          I'm a 3rd year Computer Science student with a genuine curiosity for how technology can solve everyday problems. My interests span web development, UI/UX design, and building software that actually makes a difference.
+        </p>
+        <p>
+          I enjoy the full process — from designing clean interfaces in Figma to writing and debugging code — and I'm always eager to learn whatever it takes to bring an idea to life.
+        </p>
+        <p>
+          Outside academics, I've pursued internships at CDAC, Infosys Springboard, and Pacelab to gain hands-on exposure across cybersecurity, machine learning, and IoT.
+        </p>
+      </div>
+
+      <div class="about-highlights fade-up">
+        <div class="highlight-card">
+          <div class="highlight-icon">🌐</div>
+          <div class="highlight-title">Web Development</div>
+          <div class="highlight-desc">Building responsive, interactive apps with HTML, CSS, and JavaScript.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="highlight-icon">🎨</div>
+          <div class="highlight-title">UI/UX Design</div>
+          <div class="highlight-desc">Crafting user-friendly interfaces in Figma using strong design principles.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="highlight-icon">🧠</div>
+          <div class="highlight-title">Machine Learning</div>
+          <div class="highlight-desc">Applying Python and ML to solve real prediction and classification problems.</div>
+        </div>
+        <div class="highlight-card">
+          <div class="highlight-icon">🔒</div>
+          <div class="highlight-title">Cybersecurity</div>
+          <div class="highlight-desc">Exploring security through hands-on projects and internship work.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     SKILLS SECTION
+     To add a skill: copy a .skill-item in the right category.
+============================================= -->
+<section id="skills">
+  <div class="container">
+    <span class="section-label fade-up">What I Know</span>
+    <h2 class="section-title fade-up">Skills</h2>
+    <div class="section-divider fade-up"></div>
+
+    <div class="skills-category fade-up">
+      <span class="skills-cat-label">Web & Frontend</span>
+      <div class="skills-grid">
+        <div class="skill-item"><span class="skill-icon">🌐</span> HTML</div>
+        <div class="skill-item"><span class="skill-icon">🎨</span> CSS</div>
+        <div class="skill-item"><span class="skill-icon">⚡</span> JavaScript</div>
+      </div>
+    </div>
+
+    <div class="skills-category fade-up">
+      <span class="skills-cat-label">Programming Languages</span>
+      <div class="skills-grid">
+        <div class="skill-item"><span class="skill-icon">🔵</span> C</div>
+        <div class="skill-item"><span class="skill-icon">💠</span> C++</div>
+        <div class="skill-item"><span class="skill-icon">🐍</span> Python</div>
+      </div>
+    </div>
+
+    <div class="skills-category fade-up">
+      <span class="skills-cat-label">Data & Databases</span>
+      <div class="skills-grid">
+        <div class="skill-item"><span class="skill-icon">🗄️</span> MySQL</div>
+      </div>
+    </div>
+
+    <div class="skills-category fade-up">
+      <span class="skills-cat-label">Tools & Design</span>
+      <div class="skills-grid">
+        <div class="skill-item"><span class="skill-icon">🐙</span> Git &amp; GitHub</div>
+        <div class="skill-item"><span class="skill-icon">🖌️</span> Figma (UI/UX)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     PROJECTS SECTION
+     To add a project: copy one .project-card block.
+============================================= -->
+<section id="projects">
+  <div class="container">
+    <span class="section-label fade-up">What I've Built</span>
+    <h2 class="section-title fade-up">Projects</h2>
+    <div class="section-divider fade-up"></div>
+
+    <div class="projects-grid">
+
+      <div class="project-card fade-up">
+        <span class="project-tag">Health Tech</span>
+        <h3 class="project-title">MyMediFile</h3>
+        <p class="project-desc">A digital platform for managing personal medical records. Allows users to store, access, and share health history securely from one place.</p>
+        <a href="#" class="btn-demo">Live Demo ↗</a>
+      </div>
+
+      <div class="project-card fade-up">
+        <span class="project-tag">Management System</span>
+        <h3 class="project-title">StaySync</h3>
+        <p class="project-desc">A hostel and PG management system that simplifies room bookings, tenant tracking, and administrative workflows for property managers.</p>
+        <a href="#" class="btn-demo">Live Demo ↗</a>
+      </div>
+
+      <div class="project-card fade-up">
+        <span class="project-tag">AI / Recommendation</span>
+        <h3 class="project-title">StyleSense</h3>
+        <p class="project-desc">A fashion recommendation system that suggests outfit ideas based on user preferences, occasion, and personal style patterns.</p>
+        <a href="https://alkasumesh.github.io/StyleSense/" target="_blank" class="btn-demo">Live Demo ↗</a>
+      </div>
+
+      <div class="project-card fade-up">
+        <span class="project-tag">Healthcare</span>
+        <h3 class="project-title">BloodBankTracker</h3>
+        <p class="project-desc">Locates nearby blood banks with real-time availability of specific blood groups, helping patients and donors connect quickly in urgent situations.</p>
+        <a href="https://ajishatp.github.io/error/" target="_blank" class="btn-demo">Live Demo ↗</a>
+      </div>
+
+      <div class="project-card fade-up">
+        <span class="project-tag">Cybersecurity · CDAC</span>
+        <h3 class="project-title">Ransomware Simulator</h3>
+        <p class="project-desc">A controlled cybersecurity project built during the CDAC Noida internship. Simulates ransomware behaviour in a safe environment for educational purposes.</p>
+        <a href="#" class="btn-demo">Live Demo ↗</a>
+      </div>
+
+      <div class="project-card fade-up">
+        <span class="project-tag">Machine Learning · Infosys</span>
+        <h3 class="project-title">Smart Energy Predictor</h3>
+        <p class="project-desc">An ML-based solution from Infosys Springboard internship that forecasts energy consumption patterns to support smarter resource planning.</p>
+        <a href="#" class="btn-demo">Live Demo ↗</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     EXPERIENCE SECTION
+============================================= -->
+<section id="experience">
+  <div class="container">
+    <span class="section-label fade-up">Work History</span>
+    <h2 class="section-title fade-up">Experience</h2>
+    <div class="section-divider fade-up"></div>
+
+    <div class="experience-list">
+
+      <div class="exp-item fade-up">
+        <div class="exp-dot"></div>
+        <div class="exp-content">
+          <div class="exp-header">
+            <h3 class="exp-org">CDAC Noida</h3>
+            <span class="exp-type">Virtual Internship</span>
+          </div>
+          <p class="exp-role">Cybersecurity Intern</p>
+          <p class="exp-desc">Built a Ransomware Simulator as part of a cybersecurity research project. Gained hands-on exposure to malware behaviour, threat modelling, and controlled simulation environments.</p>
+        </div>
+      </div>
+
+      <div class="exp-item fade-up">
+        <div class="exp-dot"></div>
+        <div class="exp-content">
+          <div class="exp-header">
+            <h3 class="exp-org">Infosys Springboard</h3>
+            <span class="exp-type">Virtual Internship</span>
+          </div>
+          <p class="exp-role">Machine Learning Intern</p>
+          <p class="exp-desc">Developed a Smart Energy Consumption Predictor using ML. Applied data preprocessing, model training, and evaluation to produce a functional forecasting tool.</p>
+        </div>
+      </div>
+
+      <div class="exp-item fade-up">
+        <div class="exp-dot"></div>
+        <div class="exp-content">
+          <div class="exp-header">
+            <h3 class="exp-org">Pacelab</h3>
+            <span class="exp-type">1-Week Internship</span>
+          </div>
+          <p class="exp-role">IoT Trainee</p>
+          <p class="exp-desc">Participated in a hands-on IoT training programme. Explored fundamental IoT concepts, device connectivity, sensor integration, and embedded systems applications.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     CONTACT SECTION
+============================================= -->
+<section id="contact">
+  <div class="container">
+    <span class="section-label fade-up">Get in Touch</span>
+    <h2 class="section-title fade-up">Contact</h2>
+    <div class="section-divider fade-up"></div>
+
+    <div class="contact-wrapper">
+
+      <div class="fade-up">
+        <p class="contact-intro">
+          I'm always open to interesting opportunities, collaborations, or just a good conversation about tech. Feel free to reach out!
+        </p>
+        <div class="contact-item">
+          <span class="contact-item-icon">✉️</span>
+          <div>
+            <div class="contact-item-label">Email</div>
+            <div class="contact-item-val">alka.a.s.professional@gmail.com</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <span class="contact-item-icon">📍</span>
+          <div>
+            <div class="contact-item-label">Location</div>
+            <div class="contact-item-val">India</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fade-up">
+        <h3 class="social-heading">Find me online</h3>
+        <div class="social-links">
+
+          <a href="https://github.com/alkasumesh" target="_blank" rel="noopener noreferrer" class="social-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+            </svg>
+            GitHub Profile
+          </a>
+
+          <a href="https://www.linkedin.com/in/alka-a-s/" target="_blank" rel="noopener noreferrer" class="social-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+            LinkedIn Profile
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 Alka A S. All rights reserved.</span>
+  <code>Built with HTML · CSS · JS</code>
+</footer>
+
+<!-- =============================================
+     JAVASCRIPT
+============================================= -->
+<script>
+  /* ─────────────────────────────────────────────
+     1. DARK / LIGHT MODE
+        - Reads saved preference from localStorage
+        - Persists theme across page refreshes
+        - Smooth transition via CSS variables
+  ───────────────────────────────────────────── */
+  const html        = document.documentElement;
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIcon   = document.getElementById('themeIcon');
+
+  // Icons for each mode
+  const THEME_ICONS = { light: '🌙', dark: '☀️' };
+
+  function applyTheme(theme) {
+    html.setAttribute('data-theme', theme);      // Updates CSS variables instantly
+    themeIcon.textContent = THEME_ICONS[theme];  // Swap icon
+    localStorage.setItem('theme', theme);        // Persist preference
+  }
+
+  // Load saved theme on page load (default: light)
+  applyTheme(localStorage.getItem('theme') || 'light');
+
+  // Toggle on button click
+  themeToggle.addEventListener('click', () => {
+    const current = html.getAttribute('data-theme');
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  });
+
+
+  /* ─────────────────────────────────────────────
+     2. TYPING ANIMATION
+        Cycles through phrases with a typewriter effect.
+        To add/edit phrases, just update the array below.
+  ───────────────────────────────────────────── */
+  const phrases = [
+    'I build real-world applications',
+    'I design user-friendly interfaces',
+    'I solve problems with code',
+    'I explore cybersecurity & ML',
+    'I turn ideas into software',
+  ];
+
+  let phraseIdx  = 0;   // Which phrase is currently shown
+  let charIdx    = 0;   // How many characters typed so far
+  let isDeleting = false;
+
+  const typingEl = document.getElementById('typing-text');
+
+  function type() {
+    const phrase = phrases[phraseIdx];
+
+    if (!isDeleting) {
+      // Type one character forward
+      typingEl.textContent = phrase.slice(0, charIdx + 1);
+      charIdx++;
+
+      if (charIdx === phrase.length) {
+        // Finished typing — pause then start deleting
+        setTimeout(() => { isDeleting = true; type(); }, 1800);
+        return;
+      }
+    } else {
+      // Delete one character backward
+      typingEl.textContent = phrase.slice(0, charIdx - 1);
+      charIdx--;
+
+      if (charIdx === 0) {
+        // Finished deleting — move to next phrase
+        isDeleting = false;
+        phraseIdx  = (phraseIdx + 1) % phrases.length;
+      }
+    }
+
+    // Typing is slower than deleting
+    setTimeout(type, isDeleting ? 42 : 82);
+  }
+
+  // Start typing after hero animations finish
+  setTimeout(type, 1200);
+
+
+  /* ─────────────────────────────────────────────
+     3. SMOOTH SCROLL HELPER
+  ───────────────────────────────────────────── */
+  function scrollToSection(selector) {
+    const el = document.querySelector(selector);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+
+  /* ─────────────────────────────────────────────
+     4. MOBILE NAV TOGGLE
+  ───────────────────────────────────────────── */
+  const navToggle = document.getElementById('navToggle');
+  const navLinks  = document.getElementById('navLinks');
+
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+  function closeNav() { navLinks.classList.remove('open'); }
+
+  // Close nav when clicking anywhere outside it
+  document.addEventListener('click', (e) => {
+    if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) closeNav();
+  });
+
+
+  /* ─────────────────────────────────────────────
+     5. ACTIVE NAV LINK HIGHLIGHTING
+        Highlights the nav link for the section
+        currently visible on screen.
+  ───────────────────────────────────────────── */
+  const sections   = document.querySelectorAll('section[id]');
+  const navAnchors = document.querySelectorAll('.nav-links a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(sec => {
+      if (window.scrollY >= sec.offsetTop - 90) current = sec.id;
+    });
+    navAnchors.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  }, { passive: true });
+
+
+  /* ─────────────────────────────────────────────
+     6. SCROLL-TRIGGERED FADE-UP ANIMATIONS
+        IntersectionObserver watches .fade-up elements
+        and adds .visible class when they enter viewport.
+  ───────────────────────────────────────────── */
+  const fadeEls = document.querySelectorAll('.fade-up');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target); // Animate only once
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  fadeEls.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
